@@ -37,7 +37,7 @@ void RedisServer::run() {
     // SOL_SOCKET + SO_REUSEADDR allows the server to reuse the port immediately after shutdown
     // This avoids "Address already in use" errors when restarting the server quickly
     int opt = 1;
-    setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&opt, sizeof(opt));
      // 3. Define server address structure
     sockaddr_in serverAddr{};      // IPv4 socket address structure
     serverAddr.sin_family =AF_INET;   // Address family = IPv4

@@ -13,6 +13,21 @@ In our code it’s used to implement client-server architectures
 | `SOCK_STREAM` | TCP socket (reliable, connection-oriented)         |
 | `SOCK_DGRAM`  | UDP socket (connectionless, faster but unreliable) |
 
+TCP socket workflow-
+Server side:-
+Create a socket.
+Bind it to an IP and port.
+Listen for incoming connections.
+Accept a connection.
+Send/receive data.
+Close the connection.
+
+Client side:-
+Create a socket.
+Connect to server’s IP and port.
+Send/receive data.
+Close the connection.
+
 RedisServer::run() follows the classic TCP server workflow:
 
 | Step | Function       | Purpose                                                |
