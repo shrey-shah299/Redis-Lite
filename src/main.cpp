@@ -8,5 +8,6 @@ int main(int argc,char* argv[]){
     if(argc>=2 )port =stoi(argv[1]); // convert first argument to integer
 
     RedisServer server(port);
+    server.run();
     return 0;
 }

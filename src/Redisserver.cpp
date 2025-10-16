@@ -1,8 +1,9 @@
-#include "..\include\RedisServer.h"
+#include "../include/RedisServer.h"
 #include <iostream>
-#include <winsock2.h>//for linux/UNix #include <sys/socket.h>
+#include <sys/socket.h>
 #include <unistd.h>
-#include <ws2tcpip.h> // for linux/UNix #include <netinet/in.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 
 using namespace std; 
@@ -37,7 +38,7 @@ void RedisServer::run() {
     // SOL_SOCKET + SO_REUSEADDR allows the server to reuse the port immediately after shutdown
     // This avoids "Address already in use" errors when restarting the server quickly
     int opt = 1;
-    setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, (const char*)&opt, sizeof(opt));
+    setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
      // 3. Define server address structure
     sockaddr_in serverAddr{};      // IPv4 socket address structure
     serverAddr.sin_family =AF_INET;   // Address family = IPv4
@@ -45,8 +46,7 @@ void RedisServer::run() {
     serverAddr.sin_addr.s_addr = INADDR_ANY; // Listen on all available network interfaces
 
     // 4. Bind the socket to the specified IP and port
-    // Makes the socket usable with the given address 
-    if (bind(server_socket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+    if (::bind(server_socket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
         cerr << "Error Binding Server Socket\n";
         return;
     }
@@ -55,7 +55,8 @@ void RedisServer::run() {
     if (listen(server_socket, 10) < 0) {
         std::cerr << "Error Listening On Server Socket\n";
         return;
-    } 
+    }
+    cout<<"Server is listening on port " << port << "...\n";
 
     // Server is now ready to accept incoming client connections
 }
