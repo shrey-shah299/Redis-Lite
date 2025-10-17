@@ -1,9 +1,11 @@
 #include "../include/RedisServer.h"
+#include "include/RedisCommandHandler.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include<vector>
 
 
 using namespace std; 
@@ -59,4 +61,18 @@ void RedisServer::run() {
     cout<<"Server is listening on port " << port << "...\n";
 
     // Server is now ready to accept incoming client connections
+
+    std::vector<std::thread> threads;
+    RedisCommandHandler cmdHandler;
+
+    while(running){
+        int client_socket = accept(server_socket,nullptr, nullptr);
+        if (client_socket<0){//unsuccesfil
+            if (running) std::cerr << "Couldnt accept client connection\n";
+        break;
+        }
+        threads.emplace_back([client_socket, &cmdHandler](){
+            char buffer[1024];
+        })
+    }
 }

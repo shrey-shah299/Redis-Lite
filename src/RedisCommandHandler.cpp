@@ -2,7 +2,7 @@
 #include <vector>
 #include <sstream>
 // RESP PARSER:
-// *2\r\n$4\r\nPING\r\n$4\r\nTEST\r\n
+// *2\r\n$4\r\nPING\r\n$4\r\nTEST\r\n 
 // *2-> Array of 2 elements
 // $4-> Bulk String of length 4
 // PING-> First element
