@@ -1,5 +1,6 @@
-#include <include/RedisCommandHandler.h>
+#include "../include/RedisCommandHandler.h"
 #include <vector>
+#include<algorithm>
 #include<iostream>
 #include <sstream>
 // RESP PARSER:
@@ -60,6 +61,8 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
     if(tokens.empty()){
         return "-Error Empty Command\r\n";
     }
+
+    // std::cout<<commandLine<<"\n"; RESP parse debug line
 
     for (auto& t : tokens){
         std::cout<<t<<"\n";//debug

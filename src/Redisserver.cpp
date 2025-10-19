@@ -1,5 +1,5 @@
 #include "../include/RedisServer.h"
-#include "include/RedisCommandHandler.h"
+#include "../include/RedisCommandHandler.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
