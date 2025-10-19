@@ -1,5 +1,6 @@
 #include <include/RedisCommandHandler.h>
 #include <vector>
+#include<iostream>
 #include <sstream>
 // RESP PARSER:
 // *2\r\n$4\r\nPING\r\n$4\r\nTEST\r\n 
@@ -58,6 +59,10 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
     auto tokens =parseRespCommand(commandLine);
     if(tokens.empty()){
         return "-Error Empty Command\r\n";
+    }
+
+    for (auto& t : tokens){
+        std::cout<<t<<"\n";//debug
     }
     std::string cmd =tokens[0];
     std::transform(cmd.begin(),cmd.end(),cmd.begin(),::toupper); //Convert command to uppercase for case-insensitive comparison

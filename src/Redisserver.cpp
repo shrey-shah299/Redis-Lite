@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include<cstring>
+#include<thread>
+
 #include<vector>
 
 
@@ -73,6 +76,25 @@ void RedisServer::run() {
         }
         threads.emplace_back([client_socket, &cmdHandler](){
             char buffer[1024];
-        })
+            while (true){
+                //recieve commands and proces them in commandHanler
+                //also clients to handle multiple threads
+                memset(buffer,0,sizeof(buffer));
+                int bytes = recv(client_socket, buffer, sizeof(buffer) -1, 0); 
+                if (bytes<=0) break;
+                std::string request(buffer,bytes);
+                std::string response = cmdHandler.processCommand(request);
+                send(client_socket,response.c_str(),response.size(),0);
+            }
+            close(client_socket);
+        });
     }
+
+    for (auto& t:threads){
+        if (t.joinable())t.join();//The primary purpose of join() is to wait for a thread to terminate. 
+
+
+    }
+
+    //sut down
 }
