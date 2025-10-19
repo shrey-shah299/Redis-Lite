@@ -14,6 +14,8 @@ class RedisServer{
     int port;
     int server_socket;
     atomic<bool> running; //a boolean variable that can be safely accessed or modified by multiple threads(clients) without locks.
+    // Setup signal handling for graceful shutdown (ctrl+c)
+    void setupSignalHandler();
 };
 
 #endif
