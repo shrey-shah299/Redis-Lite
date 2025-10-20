@@ -31,5 +31,50 @@
                                             |   Format response  |
                                             |<------------------|
                                             | Receive response   |
+**Redis server Architecture**
+            ┌──────────────────────┐
+            │      Client 1        │
+            └─────────┬────────────┘
+                      │ TCP Connection
+                      ▼
+            ┌──────────────────────┐
+            │  Client Thread 1     │
+            │  (std::thread)       │
+            │  recv -> process ->  │
+            │  send response       │
+            └─────────┬────────────┘
+                      │ uses
+                      ▼
+            ┌──────────────────────┐
+            │ RedisCommandHandler  │
+            │  - parse commands    │
+            │  - call database     │
+            └─────────┬────────────┘
+                      │ access
+                      ▼
+            ┌──────────────────────┐
+            │  RedisDatabase       │
+            │  (Singleton)         │
+            │  - store key-value   │
+            │  - dump/load file    │
+            └──────────────────────┘
+                      ▲
+                      │ periodic dump
+                      │ (background thread)
+            ┌──────────────────────┐
+            │ Persistence Thread   │
+            │ every 5 minutes      │
+            │ calls dump("dump.my_rdb")│
+            └──────────────────────┘
+
+            ┌──────────────────────┐
+            │      Client 2        │
+            └─────────┬────────────┘
+                      │ TCP Connection
+                      ▼
+            ┌──────────────────────┐
+            │  Client Thread 2     │
+            │  (std::thread)       │
+            └─────────┬────────────┘
 
 

@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<iostream>
 #include <sstream>
+#include <cstddef>
 // RESP PARSER:
 // *2\r\n$4\r\nPING\r\n$4\r\nTEST\r\n 
 // *2-> Array of 2 elements
@@ -63,11 +64,8 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
         return "-Error Empty Command\r\n";
     }
 
-    // std::cout<<commandLine<<"\n"; RESP parse debug line
-
-    for (auto& t : tokens){
-        std::cout<<t<<"\n";//debug
-    }
+    // // std::cout<<commandLine<<"\n"; RESP parse debug line
+    // for (auto& t : tokens) std::cout<<t<<"\n";//debug
     std::string cmd =tokens[0];
     std::transform(cmd.begin(),cmd.end(),cmd.begin(),::toupper); //Convert command to uppercase for case-insensitive comparison
     std::ostringstream response;
