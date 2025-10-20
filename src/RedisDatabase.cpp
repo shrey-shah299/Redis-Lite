@@ -43,6 +43,8 @@ bool RedisDatabase::dump(const std::string& filename) {
     return true; 
 }
 /*
+
+Each line encodes a record;
 Key-Value (K)
 kv_store["name"] = "Alice";
 kv_store["city"] = "Berlin";
@@ -91,7 +93,22 @@ bool RedisDatabase::load(const std::string& filename) {
             while(iss>> item){
                 list.push_back(item);
             }
-
+            list_Store[key]=list;
+        }
+        else if(type=='H'){
+            string key;
+            iss>>key;
+            unordered_map<string,string> hash;
+            string pair;
+            while(iss>>pair){
+                auto pos=pair.find(':');
+                if(pos !=string ::npos){
+                    string field=pair.substr(0,pos);
+                    string value=pair.substr(pos+1);
+                    hash[field]=value;
+                }
+            }
+            hash_Store[key]=hash;
         }
     }
 
