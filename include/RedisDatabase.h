@@ -1,6 +1,12 @@
 #ifndef REDIS_DATABASE_H
 #define REDIS_DATABASE_H
 #include <string>
+#include <mutex>//thread safety --prevent race conditions
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
 class RedisDatabase {
 public:
     // get the singleton instance
@@ -13,5 +19,10 @@ private:
     ~RedisDatabase() = default;
     RedisDatabase(const RedisDatabase&) = delete;
     RedisDatabase& operator=(const RedisDatabase&) = delete;
+    mutex db_mutex;
+    unordered_map<string,string>kv_Store;
+    unordered_map<string,vector<string>>list_Store;
+    unordered_map<string,unordered_map<string,string>>hash_Store;
 };    
+
 #endif
