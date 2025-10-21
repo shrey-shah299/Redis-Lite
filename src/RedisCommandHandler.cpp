@@ -135,6 +135,26 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
                 response<<":"<<(res?1:0)<<"\r\n";
             }
         }
+        else if (cmd == "EXPIRE"){
+            //timeout on keys for caching and auto evict
+
+            if (tokens.size()<3){
+                response<<"-ERROR:EXPIRE req 2 args key and time in sec\r\n";
+            }
+            else {
+                if (db.expire(tokens[1],tokens[2]))
+                response<<"+OK\r\n";
+            }
+        }
+        else if (cmd == "RENAME"){
+            if (tokens.size()<3){
+                response<<"-ERROR:RENAME req 2 args oldkey and new key in sec\r\n";
+            }
+            else{
+                if (db.rename(tokens[1],tokens[2]))
+                response<<"+OK\r\n";
+            }
+        }
     
     else{
         response<<"-Error Unknown Command\r\n";

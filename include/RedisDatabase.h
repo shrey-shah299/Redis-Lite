@@ -3,6 +3,7 @@
 #include <string>
 #include <mutex>//thread safety --prevent race conditions
 #include <unordered_map>
+#include<chrono>
 #include <vector>
 
 using namespace std;
@@ -23,8 +24,11 @@ public:
     std::string type(const std::string& key);
     bool del(const std::string& key);
     //expire
-    //rename
 
+    bool expire(const std::string& key,const std::string& seconds);
+
+    //rename
+    bool rename(const std::string oldKey,const std::string newKey);
 
 
     bool dump(const std::string& filename);
@@ -38,6 +42,8 @@ private:
     unordered_map<string,string>kv_Store;
     unordered_map<string,vector<string>>list_Store;
     unordered_map<string,unordered_map<string,string>>hash_Store;
+
+    std::unordered_map<std::string,std::chrono::steady_clock::time_point> expiry_map;
 };    
 
 #endif
