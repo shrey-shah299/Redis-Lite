@@ -75,11 +75,67 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
     RedisDatabase& db =RedisDatabase::getInstance();
     //check commmands
     if(cmd =="PING"){
-        response<<"+PONG\r\n";
+        response<<"+PONG\r\n";//just a format (+) for no error
     }
     else if(cmd =="ECHO"){
-        //...
+        if (tokens.size()<2) response<<"-Error: ECHO neesds a messege\r\n";
+        else response<<"+"<<tokens[1]<<"\r\n";
     }
+    else if (cmd == "FLUSHALL"){
+        db.flushAll();//to get rid of the entire cache on the server
+        response<<"+OK\r\n";
+    }
+
+    //Key-Value ops
+    else if (cmd == "SET"){
+        //store a user session info
+        if (tokens.size()<3) response<<"-ERROR: SET need 2 args\r\n";
+        else{
+            db.set(tokens[1],tokens[2]);
+            response<<"+OK\r\n";
+        }
+    } else if(cmd == "GET"){
+        //get session data
+        if (tokens.size()<2) response<<"-ERROR: SET need 1 arg\r\n";
+        else{
+            std::string value;
+            if (db.get(tokens[1],value))
+          
+                response<<"$"<<value.size()<<"\r\n"<<value<<"\r\n";
+            else{
+                response<<"$-1\r\n";
+            }
+        }
+    }
+        else if (cmd == "KEYS"){
+            std::vector<std::string> allKeys = db.keys();
+            response<<"*"<<allKeys.size()<<"\r\n";
+            for (const auto& key: allKeys){
+                response<<"$"<<key.size()<<"\r\n"<<key<<"\r\n";
+
+            }
+        }
+        else if (cmd == "TYPE"){
+            //check what type of vl is stored at a key
+            if (tokens.size()<2) response<<"-Error:TYPE req 1 arg(key)\r\n";
+            else{
+                response<<"+"<<db.type(tokens[1])<<"\r\n";
+            }
+
+        }
+        else if (cmd == "DEL" || cmd == "UNLINK"){
+            //evict a stale cache entry after user logs off
+            if (tokens.size()<2){
+                response<<"-Errpr: Key req for del\r\n";
+
+
+            }
+            else{
+                bool res = db.del(tokens[1]);
+                response<<":"<<(res?1:0)<<"\r\n";
+            }
+        }
+    
     else{
         response<<"-Error Unknown Command\r\n";
     }
