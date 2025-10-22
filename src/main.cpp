@@ -6,7 +6,13 @@ using namespace std;
 int main(int argc,char* argv[]){
     int port = 6379;
     //argv[0] is the program name.
-    if(argc>=2 )port =stoi(argv[1]); // convert first argument to integer
+    if(argc>=2 )port =stoi(argv[1]); 
+
+    //just for testing..whether database is loaded or not
+    if(RedisDatabase::getInstance().load("dump.my_rdb"))
+        cout<<"Database loaded dump.my_rdb\n";
+    else 
+        cout<<"No dump found or load failed ..starting with empty database\n";
 
     RedisServer server(port);
     // server.run();

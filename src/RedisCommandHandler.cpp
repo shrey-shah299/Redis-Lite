@@ -126,9 +126,7 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
         else if (cmd == "DEL" || cmd == "UNLINK"){
             //evict a stale cache entry after user logs off
             if (tokens.size()<2){
-                response<<"-Errpr: Key req for del\r\n";
-
-
+                response<<"-Error: Key req for del\r\n";
             }
             else{
                 bool res = db.del(tokens[1]);
@@ -142,7 +140,8 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
                 response<<"-ERROR:EXPIRE req 2 args key and time in sec\r\n";
             }
             else {
-                if (db.expire(tokens[1],tokens[2]))
+                int seconds=std::stoi(tokens[2]);
+                if (db.expire(tokens[1],seconds))
                 response<<"+OK\r\n";
             }
         }
