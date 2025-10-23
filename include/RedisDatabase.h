@@ -29,6 +29,16 @@ public:
 
     //rename
     bool rename(const std::string oldKey,const std::string newKey);
+    //list operations
+    std::vector<std::string> lget(const std::string& key);
+    ssize_t llen(const std::string& key);
+    void lpush(const std::string& key, const std::string& value);
+    void rpush(const std::string& key, const std::string& value);
+    bool lpop(const std::string& key, std::string& value);
+    bool rpop(const std::string& key, std::string& value);
+    int lrem(const std::string& key, int count, const std::string& value);
+    bool lindex(const std::string& key, int index, std::string& value);
+    bool lset(const std::string& key, int index, const std::string& value);
 
 
     bool dump(const std::string& filename);
@@ -40,7 +50,7 @@ private:
     RedisDatabase& operator=(const RedisDatabase&) = delete;
     mutex db_mutex;
     unordered_map<string,string>kv_Store;
-    unordered_map<string,vector<string>>list_Store;
+    unordered_map<string,vector<string>>list_store;
     unordered_map<string,unordered_map<string,string>>hash_Store;
 
     std::unordered_map<std::string,std::chrono::steady_clock::time_point> expiry_map;
