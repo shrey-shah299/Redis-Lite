@@ -384,7 +384,25 @@ std::string RedisCommandHandler::processCommand(const std::string& commandLine) 
         return handleLindex(tokens, db);
     else if (cmd == "LSET")
         return handleLset(tokens, db);       
-        //HASH ops penfing 
+        //HASH ops penfing
+    else if (cmd == "HSET") 
+        return handleHset(tokens, db);
+    else if (cmd == "HGET") 
+        return handleHget(tokens, db);
+    else if (cmd == "HEXISTS") 
+        return handleHexists(tokens, db);
+    else if (cmd == "HDEL") 
+        return handleHdel(tokens, db);
+    else if (cmd == "HGETALL") 
+        return handleHgetall(tokens, db);
+    else if (cmd == "HKEYS") 
+        return handleHkeys(tokens, db);
+    else if (cmd == "HVALS") 
+        return handleHvals(tokens, db);
+    else if (cmd == "HLEN") 
+        return handleHlen(tokens, db);
+    else if (cmd == "HMSET") 
+        return handleHmset(tokens, db); 
     
     else{
         response<<"-Error Unknown Command\r\n";
