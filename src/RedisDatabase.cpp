@@ -2,6 +2,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include<iterator>
+#include<algorithm>
 
 using namespace std;
 
@@ -207,18 +209,20 @@ int RedisDatabase::lrem(const std::string& key, int count, const std::string& va
 }
 
 bool RedisDatabase::lindex(const std::string& key, int index, std::string& value) {
-    std::lock_guard<std::mutex> lock(db_mutex);
+    std::lock_guard<std::mutex>lock(db_mutex);
     auto it = list_store.find(key);
     if (it == list_store.end()) 
         return false;
 
-    const auto& lst = it->second;
-    if (index < 0)
-        index = lst.size() + index;
-    if (index < 0 || index >= static_cast<int>(lst.size()))
+    const auto& lst =it->second;
+    int vecSize = static_cast<int>(lst.size());
+    if (index<0)
+        index=lst.size() + index;//to support neg indexing
+    if (index <0||index>=static_cast<int>(lst.size()))//if index is neg then comparision may not work due to implicit conversion, hence staticast
+
         return false;
     
-    value = lst[index];
+    value =lst[index];
     return true;
 }
 
