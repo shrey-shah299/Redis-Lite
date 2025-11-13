@@ -71,5 +71,6 @@
         "iomanip": "cpp",
         "span": "cpp",
         "text_encoding": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }

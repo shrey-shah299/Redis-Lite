@@ -1,29 +1,7 @@
+Ltasks:completed task:1763039121299 task:1763039114272 task:1763039108890 task:1763039097700 task:1763039088863 task:1763039080832 task:1763039042987 task:1763039030011 task:1763039036077 task:1763039033718 task:1763038449142 task:1763038444402 task:1763038439864 task:1763038434092 task:1763038405273 task:1763038398339 task:1763038365345 task:1763038353715 task:1763038357861 task:1763038308019 task:1763038247576 task:1763038244219 task:1763038239806 task:1763038234555 task:1763038231351 task:1763038220053 task:1763038211597 task:1763038206143 task:1763038202336 task:1763038172305 task:1763038168844 task:1763038152934 task:1763038138896 task:1763038021524 task:1763038003369 task:1763037991897 task:1763037982949 task:1763037978634 task:1763037969161 task:1763037967372 task:1763037899475 task:1763037882022 task:1763037880538 task:1763037876885 task:1763037873057 task:1763037866004 task:1763037855974 task:1763037856140 task:1763037848966 task:1763037848750 task:1763037777420 task:1763037773075 task:1763037771932 task:1763037776929 task:1763037689597 task:1763037689404 task:1763037689061 task:1763037689247 task:1763037688709 task:1763037688572 task:1763037688893 task:1763037688280 task:1763037688427 task:1763037687877 task:1763037688073 task:1763037687572 task:1763037687192 task:1763037686828 task:1763037685862 task:1763037686337 task:1763037685533 task:1763037685092 task:1763037684205 task:1763037679951 task:1763037675757 task:1763037665935 task:1763037661191 task:1763037651084 task:1763037650304 task:1763037649607 task:1763037648953 task:1763037596192 task:1763037581401 task:1763037574684 task:1763037322163 task:1763036901478 task:1763036895796 task:1763036895129 task:1763036884653 task:1763036878841 task:1763036807068 task:1000 task:1001
 Lqueue:low
 Lqueue:high
 Lqueue:critical
-Ltasks:completed task:1019 task:1018 task:1017 task:1016 task:1015 task:1014 task:1013 task:1012 task:1011 task:1009 task:1010 task:1008 task:1005 task:1006 task:1002 task:1000 task:1001 task:1007 task:1004 task:1003 task:1019 task:1018 task:1017 task:1016 task:1015 task:1014 task:1013 task:1012 task:1011 task:1010 task:1009 task:1008 task:1007 task:1006 task:1005 task:1004 task:1003 task:1002 task:1001 task:1000
 Lqueue:normal
 Lcolours green blue
 Lfruits apple banana orange
-Htask:1019 completed_at:1762627150 worker_id:3 status:completed priority:high created_at:1762627148 type:send_email
-Htask:1018 completed_at:1762627148 worker_id:3 status:completed priority:high created_at:1762627147 type:process_payment
-Htask:1016 completed_at:1762627147 worker_id:2 status:completed priority:normal created_at:1762627145 type:resize_image
-Htask:1015 completed_at:1762627146 worker_id:3 status:completed priority:high created_at:1762627144 type:resize_image
-Htask:1012 completed_at:1762627143 worker_id:3 status:completed priority:normal created_at:1762627141 type:send_email
-Htask:1011 completed_at:1762627142 worker_id:2 status:completed priority:normal created_at:1762627140 type:send_email
-Huser:100 email:bob@example.com age:30 name:bob
-Htask:1010 completed_at:1762627141 worker_id:3 status:completed priority:high created_at:1762627139 type:process_payment
-Huser:200 email:eve@example.com age:25 name:Eve
-Htask:1008 completed_at:1762627141 worker_id:2 status:completed priority:normal created_at:1762627137 type:backup_database
-Htask:1000 completed_at:1762627139 worker_id:2 status:completed priority:normal created_at:1762627129 type:process_payment
-Htask:1017 completed_at:1762627147 worker_id:3 status:completed priority:low created_at:1762627146 type:generate_report
-Htask:1014 completed_at:1762627144 worker_id:1 status:completed priority:normal created_at:1762627143 type:send_email
-Htask:1013 completed_at:1762627143 worker_id:1 status:completed priority:low created_at:1762627142 type:resize_image
-Htask:1004 completed_at:1762627138 worker_id:1 status:completed priority:critical created_at:1762627133 type:process_payment
-Htask:1001 completed_at:1762627139 worker_id:1 status:completed priority:normal created_at:1762627130 type:process_payment
-Htask:1002 completed_at:1762627140 worker_id:3 status:completed priority:normal created_at:1762627131 type:backup_database
-Htask:1003 completed_at:1762627138 worker_id:2 status:completed priority:high created_at:1762627132 type:resize_image
-Htask:1005 completed_at:1762627140 worker_id:1 status:completed priority:normal created_at:1762627134 type:generate_report
-Htask:1006 completed_at:1762627140 worker_id:2 status:completed priority:normal created_at:1762627135 type:backup_database
-Htask:1009 completed_at:1762627141 worker_id:1 status:completed priority:normal created_at:1762627138 type:backup_database
-Htask:1007 completed_at:1762627138 worker_id:3 status:completed priority:high created_at:1762627136 type:process_payment
