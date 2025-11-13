@@ -45,11 +45,11 @@ const TaskCreator: React.FC<TaskCreatorProps> = ({ onTaskCreated }) => {
 
   const getPriorityColor = (p: string) => {
     switch (p) {
-      case 'critical': return 'bg-red-600';
-      case 'high': return 'bg-orange-500';
-      case 'normal': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      case 'critical': return 'bg-gray-700';
+      case 'high': return 'bg-gray-700';
+      case 'normal': return 'bg-gray-700';
+      case 'low': return 'bg-gray-700';
+      default: return 'bg-gray-700';
     }
   };
 

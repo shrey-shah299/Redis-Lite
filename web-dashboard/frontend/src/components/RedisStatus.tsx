@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import { api, Task, QueueStats } from '../services/api';
 
 const RedisStatus: React.FC = () => {
@@ -7,23 +7,40 @@ const RedisStatus: React.FC = () => {
   const [searchTaskId, setSearchTaskId] = useState('');
   const [searchResult, setSearchResult] = useState<Task | null>(null);
   const [loading, setLoading] = useState(false);
+  const isFetching = useRef(false);
 
-  const fetchData = async () => {
-    try {
-      const [tasksData, statsData] = await Promise.all([
-        api.getTasks(),
-        api.getQueueStats()
-      ]);
-      setTasks(tasksData);
-      setQueueStats(statsData);
-    } catch (err) {
-      console.error('Error fetching data:', err);
-    }
-  };
+const fetchData = async () => {
+    if (isFetching.current) return; // prevent overlap
+    isFetching.current = true;
+  try {
+    const [tasksData, statsData] = await Promise.all([
+      api.getTasks(),
+      new Promise(res => setTimeout(res, 200)).then(() => api.getQueueStats())
+    ]);
+    setTasks([...tasksData]); 
+    setQueueStats({ ...statsData });
+  } catch (err) {
+    console.error('Error fetching data:', err);
+  }finally {
+    isFetching.current = false; // ✅ ensures next refresh always allowed
+  }
+};
+const handleRefresh = async () => {
+  setLoading(true);
+  await fetchData();
+  setTimeout(async () => {
+    await fetchData();
+    setLoading(false);
+  }, 1000);
+};
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+
+useEffect(() => {
+  fetchData();
+  const interval = setInterval(fetchData, 2000); // every 5s
+  return () => clearInterval(interval);
+}, []);
+
 
   const handleSearch = async () => {
     if (!searchTaskId.trim()) return;
@@ -42,10 +59,10 @@ const RedisStatus: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-400';
-      case 'processing': return 'text-yellow-400';
-      case 'pending': return 'text-gray-400';
-      default: return 'text-gray-500';
+      case 'completed': return 'bg-gray-700';
+      case 'processing': return 'bg-gray-700';
+      case 'pending': return 'bg-gray-700';
+      default: return 'bg-gray-700';
     }
   };
 
@@ -60,11 +77,11 @@ const RedisStatus: React.FC = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'critical': return 'bg-red-600';
-      case 'high': return 'bg-orange-500';
-      case 'normal': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      case 'critical': return 'bg-gray-700';
+      case 'high': return 'bg-gray-700';
+      case 'normal': return 'bg-gray-700';
+      case 'low': return 'bg-gray-700';
+      default: return 'bg-gray-700';
     }
   };
 
@@ -75,30 +92,27 @@ const RedisStatus: React.FC = () => {
       </h2>
 
       {/* Queue Statistics */}
-      {queueStats && (
-        <div className="mb-4 grid grid-cols-5 gap-2">
-          <div className="bg-red-900 rounded p-3 text-center">
-            <div className="text-red-300 text-[10px] font-semibold mb-1">Critical</div>
-            <div className="text-white font-bold text-xl">{queueStats.critical}</div>
-          </div>
-          <div className="bg-orange-900 rounded p-3 text-center">
-            <div className="text-orange-300 text-[10px] font-semibold mb-1">High</div>
-            <div className="text-white font-bold text-xl">{queueStats.high}</div>
-          </div>
-          <div className="bg-yellow-900 rounded p-3 text-center">
-            <div className="text-yellow-300 text-[10px] font-semibold mb-1">Normal</div>
-            <div className="text-white font-bold text-xl">{queueStats.normal}</div>
-          </div>
-          <div className="bg-green-900 rounded p-3 text-center">
-            <div className="text-green-300 text-[10px] font-semibold mb-1">Low</div>
-            <div className="text-white font-bold text-xl">{queueStats.low}</div>
-          </div>
-          <div className="bg-blue-900 rounded p-3 text-center">
-            <div className="text-blue-300 text-[10px] font-semibold mb-1">Done</div>
-            <div className="text-white font-bold text-xl">{queueStats.completed}</div>
-          </div>
+{/* {queueStats && (
+  <div className="mb-6 grid grid-cols-5 gap-4">
+    {[
+      { label: "Critical", value: queueStats.critical },
+      { label: "High", value: queueStats.high },
+      { label: "Normal", value: queueStats.normal },
+      { label: "Low", value: queueStats.low },
+      { label: "Done", value: queueStats.completed },
+    ].map((item) => (
+      <div
+        key={item.label}
+        className="rounded-xl p-4 text-center shadow-lg bg-gray-700 hover:scale-[1.03] transition-transform duration-200"
+      >
+        <div className="text-white text-sm font-semibold mb-1 tracking-wide uppercase opacity-90">
+          {item.label}
         </div>
-      )}
+      </div>
+    ))}
+  </div>
+)} */}
+
 
       {/* Search Box */}
       <div className="mb-4">
@@ -136,7 +150,8 @@ const RedisStatus: React.FC = () => {
 
       {/* Refresh Button */}
       <button
-        onClick={fetchData}
+       onClick={handleRefresh}
+      disabled={loading}
         className="mb-4 w-full py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
       >
         Refresh

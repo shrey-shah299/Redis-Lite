@@ -29,7 +29,7 @@ const WorkerPanel: React.FC = () => {
 
   const getWorkerStatusColor = (status: string, isActive: boolean) => {
     if (!isActive) return 'text-gray-500';
-    return status === 'processing' ? 'text-yellow-400' : 'text-green-400';
+    return status === 'processing' ? 'text-gray-500' : 'text-gray-500';
   };
 
   const formatTimestamp = (timestamp: string) => {
@@ -66,18 +66,18 @@ const WorkerPanel: React.FC = () => {
 
       {/* Worker Count Summary */}
       <div className="mb-6 grid grid-cols-3 gap-3">
-        <div className="bg-blue-900 rounded p-3 text-center">
+        <div className="bg-gray-700 rounded p-3 text-center">
           <div className="text-blue-300 text-xs">Total Workers</div>
           <div className="text-white font-bold text-2xl">{workers.length}</div>
         </div>
-        <div className="bg-green-900 rounded p-3 text-center">
-          <div className="text-green-300 text-xs">Active</div>
+        <div className="bg-gray-700 rounded p-3 text-center">
+          <div className="text-gray-500' text-xs">Active</div>
           <div className="text-white font-bold text-2xl">
             {workers.filter(w => w.isActive).length}
           </div>
         </div>
-        <div className="bg-yellow-900 rounded p-3 text-center">
-          <div className="text-yellow-300 text-xs">Processing</div>
+        <div className="bg-gray-700 rounded p-3 text-center">
+          <div className="text-gray-500' text-xs">Processing</div>
           <div className="text-white font-bold text-2xl">
             {workers.filter(w => w.status === 'processing' && w.isActive).length}
           </div>
@@ -109,8 +109,8 @@ const WorkerPanel: React.FC = () => {
                 className={`rounded-lg p-4 border transition-all ${
                   worker.isActive
                     ? worker.status === 'processing'
-                      ? 'bg-yellow-900 border-yellow-700'
-                      : 'bg-green-900 border-green-700'
+                      ? 'text-gray-500 border-yellow-700'
+                      : 'text-gray-500 border-green-700'
                     : 'bg-gray-900 border-gray-700 opacity-60'
                 }`}
               >
