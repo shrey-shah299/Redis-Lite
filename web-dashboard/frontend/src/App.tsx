@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import TaskCreator from './components/TaskCreator';
 import RedisStatus from './components/RedisStatus';
 import WorkerPanel from './components/WorkerPanel';
@@ -58,31 +58,6 @@ function App() {
           </div>
 
           <div className="flex items-center gap-6">
-            {/* Connection Status */}
-            <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${connected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-              <span className="text-sm font-semibold">
-                {connected ? 'Connected' : 'Disconnected'}
-              </span>
-            </div>
-
-            {/* Session Stats */}
-            {stats && (
-              <div className="flex gap-4 text-sm">
-                <div className="bg-gray-700 px-3 py-1 rounded">
-                  <span className="text-gray-400">Total:</span> <span className="font-bold">{stats.totalTasks}</span>
-                </div>
-                <div className="bg-gray-700 px-3 py-1 rounded">
-                  <span className="text-gray-400">Pending:</span> <span className="font-bold">{stats.pending}</span>
-                </div>
-                <div className="bg-gray-700 px-3 py-1 rounded">
-                  <span className="text-gray-400">Processing:</span> <span className="font-bold">{stats.processing}</span>
-                </div>
-                <div className="bg-gray-700 px-3 py-1 rounded">
-                  <span className="text-gray-400">Completed:</span> <span className="font-bold">{stats.completed}</span>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
