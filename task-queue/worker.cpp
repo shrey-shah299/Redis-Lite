@@ -50,9 +50,13 @@ std::string getNextTask(RedisClient& client) {
 }
 
 void processTask(RedisClient& client, const std::string& taskId, int workerId) {
-    std::cout << "[WORKER-" << workerId << "] Processing: " << taskId << std::endl;
+    std::cout << "[WORKER-" << workerId << "] Assigned: " << taskId << std::endl;
+    
+    // Delay 1: When task is assigned (make it visible on frontend that task was assigned)
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     
     // Update task status to processing
+    std::cout << "[WORKER-" << workerId << "] Processing: " << taskId << std::endl;
     client.hset(taskId, "status", "processing");
     client.hset(taskId, "worker_id", std::to_string(workerId));
     
@@ -65,8 +69,13 @@ void processTask(RedisClient& client, const std::string& taskId, int workerId) {
     // Get task details
     std::string details = client.hgetall(taskId);
     
-    // Simulate work (different task types take different time)
-    std::this_thread::sleep_for(std::chrono::milliseconds(500 + rand() % 1500));
+    // Delay 2: Simulate work with longer, more visible delay (3-6 seconds)
+    int processingTime = 3000 + rand() % 3000;
+    std::cout << "[WORKER-" << workerId << "] Working for ~" << processingTime << "ms..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(processingTime));
+    
+    // Delay 3: Small delay before completing to give frontend time to update
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
     // Mark task as completed
     client.hset(taskId, "status", "completed");
