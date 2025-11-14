@@ -1,6 +1,8 @@
 #ifndef MY_REDIS_CLIENT_H
 #define MY_REDIS_CLIENT_H
 
+using namespace std;
+
 #pragma once
 
 #include <iostream>
@@ -9,36 +11,52 @@
 #include <sstream>          // handling streams and conversions
 #include <cstdlib>
 #include <cstring>
-#include <unistd.h>         // close(), read(), write()
+#include <unistd.h>         // close(),read(),write()
 #include <sys/types.h>      // socket programming
-#include <sys/socket.h>     // socket programming
-#include <arpa/inet.h>      // network communication (inet_pton(), htonl())
+#include <sys/socket.h>     // "
+#include <arpa/inet.h>      // network comms
 #include <netdb.h>          // hostname resolution (getaddrinfo())
 
 class Client {
 private:
-    const std::string host;
+    const  string host;
+
+
     int port;
+
 
 public:
     // Constructor
-    Client(const std::string &host, int port);
+    // The client has four key methods:
 
-    // Getter and Setter
-    std::string getHost() const;
-    int getPort() const;
+    // connectToServer() - Establishes TCP connection using socket programming
+    // buildRESPCommand() - Converts user commands to RESP format
+    // parseAndPrintRedisReply() - Parses the response we get form server
+    
 
-    // Functions
+    Client(const string &host, int port);
+
+    //get host and port
+ string getHost() const;
+int getPort() const;
+
+    
     int connectToServer();
-    std::vector<std::string> splitArgs(const std::string &line);
-    std::string buildRESPCommand(const std::vector<std::string> &args);
+     vector< string> splitArgs(const  string &line);
+
+     string buildRESPCommand(const  vector< string> &args);
+
+
+
     bool parseAndPrintRedisReply(int sockfd);
+
+    //my_redis_cli.cpp : How resp actually works
 };
 
 // Util functions
 namespace Utils {
     void printHelp();
-    std::string trim(const std::string &s);
+     string trim(const  string &s);
 }
 
-#endif // MY_REDIS_CLIENT_H
+#endif

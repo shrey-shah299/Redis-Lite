@@ -89,7 +89,7 @@ void processTask(RedisClient& client, const std::string& taskId, int workerId) {
     // Add to completed list
     client.lpush("tasks:completed", taskId);
     
-    std::cout << "[WORKER-" << workerId << "] ✓ Completed: " << taskId << std::endl;
+    std::cout << "[WORKER-" << workerId << "] Completed: " << taskId << std::endl;
 }
 
 void workerLoop(int workerId) {
@@ -144,12 +144,9 @@ int main(int argc, char* argv[]) {
     
     signal(SIGINT, signalHandler);
     
-    std::cout << "========================================\n";
-    std::cout << "  TASK WORKERS\n";
-    std::cout << "========================================\n";
+    std::cout << "TASK WORKERS\n";
     std::cout << "Starting " << numWorkers << " workers...\n";
-    std::cout << "Press Ctrl+C to stop\n";
-    std::cout << "========================================\n\n";
+    std::cout << "Press Ctrl+C to stop\n\n";
     
     std::vector<std::thread> workers;
     
@@ -163,9 +160,7 @@ int main(int argc, char* argv[]) {
         worker.join();
     }
     
-    std::cout << "\n========================================\n";
-    std::cout << "All workers stopped\n";
-    std::cout << "========================================\n";
+    std::cout << "\nAll workers stopped\n";
     
     return 0;
 }
